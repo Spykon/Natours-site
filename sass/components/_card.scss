@@ -1,0 +1,216 @@
+.card { //la prospettivs vsle solo sui figli diretti
+    //FUNCTIONALITY STYLE
+    perspective: 150rem; //senza il concetto di prospettiva, non ho una rotazione molto bella delle carte - introducendo vedo durante la rotazione un effetto più reale in prospettiva (fare tante prove con tanti valori diversi 15 - 150 - 1500 rem)
+    -moz-perspective: 150rem; //per renderle la prospettiva leggibile su firefox
+    position: relative; //introdotta per la sovrapposizione delle card
+    height: 52rem; //devo specificare l'altezza delle card anche qui perchè una volta sovrapposte le card queste perdono la prospettiva - aggiungendo l'altezza si regola il tutto
+
+    &__side {
+        background-color: green;
+        // color: white;
+        // font-size: 2rem;
+        height: 52rem;
+        transition: all .8s ease; //ease=tipo di animazione
+        position: absolute; //per la sovrapposizione delle card
+        top: 0; //posizionamento delle card
+        left: 0; //posizionamento delle card
+        width: 100%; //se non specifico l'ampiezza noto un leggero sfasamento nella sovrapposizione delle card
+        -webkit-backface-visibility: hidden; //aggiunto per rendere funzionale la proprietà aggiunta con SAFARI
+        backface-visibility: hidden; //nascondo le scritte delle due card - mostro solo la faccia attiva
+        border-radius: 3px;
+        overflow: hidden; //lo imposto per poter mantenerel border radius perso una volta introdotta l'immagine - in quanto l'immagine si sovrappone all'elemento genitore
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+        &--front {
+            background-color: $color-white;
+        }
+
+        &--back {
+            
+            transform: rotateY(180deg);
+
+            &-1 {
+                background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark); //Colore retro delle carte sfumate
+            }
+
+            &-2 {
+                background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark); //Colore retro delle carte sfumate
+            }
+
+            &-3 {
+                background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark); //Colore retro delle carte sfumate
+            }
+        }
+    }
+    
+    &:hover &__side--front {
+        transform: rotateY(-180deg); //introducendo una rotazione negegstiva permetto una rotazione completa della carta 
+    }
+
+    &:hover &__side--back {
+        transform: rotateY(0);
+    }
+
+    //FRONT SIDE STYLING
+    &__picture {
+        background-size: cover;
+        height: 23rem; //se non imposto l'altezza vedo un'immagine distorta
+        background-blend-mode: screen; //serve per permettere la visualizzazione dell'immagine - senz di esso si vede solon l'effetto di linear-gradient (esistono diversi stili che si possono applicare - provare con inspect)
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        
+
+        &--1 {
+            background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark), url(../img/nat-5.jpg);
+        }
+
+        &--2 {
+            background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark), url(../img/nat-6.jpg);
+        }
+
+        &--3 {
+            background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark), url(../img/nat-7.jpg);
+        }
+
+    }
+
+    &__heading {
+        font-size: 2.8rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        text-align: right;
+        color: $color-white;
+        position: absolute;
+        top: 12rem;
+        right: 2rem;
+        width: 75%; //ho impoststo l'ampiezza che deve avere il titolo
+
+    }
+
+    &__heading-span {
+        padding: 1rem 1.5rem;
+        -webkit-box-decoration-break: clone; //per esser leggibile su chrome
+        box-decoration-break: clone; //permette di avere una rottura di linea se ho un elemento intero - quindi crea uno spazio ai bordi di ciascuna linea creata e non solo a quello iniziale e finale
+
+        &--1 { //per dare uno stile allo sfondo del titolo
+            background-image: linear-gradient(to right bottom,
+            rgba($color-secondary-light, .85),
+            rgba($color-secondary-dark, .85));
+        }
+
+        &--2 { //per dare uno stile allo sfondo del titolo
+            background-image: linear-gradient(to right bottom,
+            rgba($color-primary-light, .85),
+            rgba($color-primary-dark, .85));
+        }
+
+        &--3 { //per dare uno stile allo sfondo del titolo
+            background-image: linear-gradient(to right bottom,
+            rgba($color-tertiary-light, .85),
+            rgba($color-tertiary-dark, .85));
+        }
+    }
+
+    &__details {
+        padding: 3rem;
+
+        ul {
+            list-style: none;
+            width: 80%;
+            margin: 0 auto;
+            
+            li {
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+                
+                &:not(:last-child) {
+                    border-bottom: 1px solid $color-grey-light-2; //per avere un bordo di separazione tra i vari elementi della lista
+                }
+            }
+        }
+    }
+
+    //BACK SIDE STYLING
+    &__cta {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); //assieme ai 3 parametri soprastsnti serve per centrare gli elementi al centro
+        width: 90%; //impostata per avere la scritta del bottone disposta su un unica riga
+        text-align: center; //impostata per centrare il bottone
+
+    }
+
+    &__price-box {
+        text-align: center;
+        color: $color-white;
+        margin-bottom: 8rem;
+
+    }
+
+    &__price-only {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+    }
+
+    &__price-value {
+        font-size: 6rem;
+        font-weight: 100;
+    }
+
+
+
+
+
+
+    @include respond(tab-port) {
+        height: auto;
+        border-radius: 3px;
+        background-color: $color-white;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+        &__side {
+            height: auto;
+            position: relative;
+            box-shadow: none;
+            
+
+            &--back { 
+                transform: rotateY(0);
+                clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+        
+        &:hover &__side--front {
+            transform: rotateY(0);
+        }
+
+        &__details {
+            padding: 1 3rem;
+        }
+
+
+        //FRONT SIDE STYLING
+        &__cta {
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: translate(0);
+            width: 100%;
+            padding: 4rem;
+            padding: 7rem 4rem 4rem 4rem;
+
+        }
+
+        &__price-box {
+            margin-bottom: 3rem;
+
+        }
+
+        &__price-value {
+            font-size: 4rem;
+        }
+
+    }
+}

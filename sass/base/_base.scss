@@ -1,0 +1,43 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit; /*INDAGARE - cosa vuol dire "inherit"? - perchè sono state aggiunte le pseudo-classi?*/
+}
+
+html {
+    // This define what 1rem is
+    font-size: 62.5%; /*Inizialemnte avevo 16px. Per convertire tutte le misure espresse in px in rem, ho scritto qui: 10px. Quindi ho poi convertito tutte le misure in rem = 10px=1rem. Poi ho convertito i 10px in %. (10/16)x100=62.5% */
+
+    /*@include respond(phone) { LO POSSO ELIMINARE SICCOME E' IDENTICO A QUELLO CHE LO SEGUE
+        font-size: 50%;
+    }*/
+
+    @include respond(tab-land) { //width < 1200px?
+        font-size: 56.25%; //1rem=9px, 9/16=56.25%
+    }
+
+    @include respond(tab-port) { //width < 900px?
+        font-size: 50%; //1rem=8px, (8/16)*100=50%
+    }
+
+    @include respond(phone) {
+        font-size: 38%; //1rem=?px, (?/16)*100=38% AGGIUNTO SOLO PER ESERCIZIO
+    }
+
+    @include respond(big-desktop) { //è impoetante l'ordine! altrimenti si ha un conflitto, ma essendo questa in min-width non può andare in conflitto con le precedenti, quindi posso lasciarla per ultima - mentre le altre devono essere messe in ordine decrescente
+        font-size: 75%; //1rem=12px, 12/16=75%
+    }
+
+}
+
+body {
+    box-sizing: border-box; /*INDAGARE - perchè è stata spostata qui dal selettore universale (*)? */
+    padding: 3rem;
+
+    @include respond(tab-port) { //width < 900px?
+        padding: 0;
+    }
+
+}

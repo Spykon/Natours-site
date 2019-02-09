@@ -1,0 +1,106 @@
+.popup {
+    height: 100vh; //voglio che lo sfondo sia scuro sull'intera pagina
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba($color-black, .8);
+    z-index: 3000; //inserito per dominare sul bottone ad hamburger
+
+    opacity: 0; //per tenere nascosto il popup fino alla sua apertura
+    visibility: hidden; //per tenere nascosto il popup fino alla sua apertura
+    transition: all .3s;
+
+    //Serve per permettere la lettura di queste proprietà a determinati browser - sempre che vadano, altrimenti tutto rimane com'è stato stabilito - per
+    @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px); //questa funzione non funziona con CHROME
+        background-color: rgba($color-black, .3);
+    }
+
+    &__content {
+        @include absCenter; //ho creato questo mixin per semplificarmi la vita. Il codice si trova nel file relativo al mixin, qui viene semplicemente richiamato
+
+        width: 75%;
+        background-color: $color-white;
+        box-shadow: 0 2rem 4rem rgba($color-black, .2);
+        border-radius: 3px;
+        display: table;
+        overflow: hidden; //per arrotondare i bordi a sx
+
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.25); //se specifico solo lo scale ho dei problemi, devo richiamare anche translate definito nel mixin perchè il popup sia posizionato correttamente
+        transition: all .5s .2s; //il .2s introduce un ritardo di animazione
+
+    }
+
+    &__left {
+        width: 33.333333%;
+        display: table-cell;
+
+    }
+
+    &__right {
+        width: 66.66666667%;
+        display: table-cell;
+        vertical-align: middle;
+        padding: 3rem 5rem;
+
+
+    }
+
+    &__img {
+        display: block;
+        width: 100%;
+    }
+
+    &__text {
+        font-size: 1.4rem;
+        margin-bottom: 4rem;
+
+        -moz-column-count: 2;
+        -moz-column-gap: 4rem;
+        -moz-column-rule: 1px solid $color-grey-light-2;
+
+        column-count: 2; //permette di creare du colonne per il paragrafo
+        column-gap: 4rem; //permette di creare uno spazio tra le colonne create - di default lo spazio di separazione sarebbe di 1em. Che equivale a: 14px -> 1.4rem impostati qui
+        column-rule: 1px solid $color-grey-light-2; //linea di separazione tra le due colonne
+
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto; //serve per creare il trattino di "a-capo" per le parole lunghe - da usare in simbiosi con la lingua impostata nella pagina di html
+    }
+
+    //OPEN STATES
+    &:target {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &:target &__content {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    &__close {
+        &:link,
+        &:visited {
+            color: $color-grey-dark;
+            position: absolute; //viene posizionata rispetto il content visto che è il suo diretto parente
+            top: 2.5rem;
+            right: 2.5rem;
+            font-size: 3rem;
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1; //riposiziona la croce - INDAGARE sul funzionamento
+        }
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+    
+
+
+}

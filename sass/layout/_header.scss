@@ -1,0 +1,63 @@
+
+.header {
+    height: 85vh; /*In questo caso vedrò che una piccola parte in basso sarà bianca*/
+    background-image: linear-gradient(
+        to right bottom,
+        rgba($color-primary-light, 0.8),
+        rgba($color-primary-dark, 0.8)),
+        url(../img/hero-small.jpg); /*I due punti servono per tornare indietro di una cartella*/
+    background-size: cover;
+    background-position: top; /*Voglio che al ridimensionamento, la parte alta rimanga fissa*/
+    position: relative; /*INDAGARE*/
+    
+    //introdotto per la responsività di SAFARI
+    @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); /*Permette di fare un taglio dell'immagine (x y, x y, x y, x y) - posso anche specificare con i pixel, o anche meglio con i vh*/
+        height: 95vh;
+    }
+
+    // MEDIA QUERY INTRODOTTO PER LE IMMAGINI RESPONSIVE
+    @media (min-resolution: 192dpi) and (min-width: 37.5em), //600px:16=37.5em
+           (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), //aggiunto per ottimizzare la lettura su SAFARI
+           (min-width: 125em) { //2000px:16px=125em
+        background-image: linear-gradient(
+            to right bottom,
+            rgba($color-primary-light, 0.8),
+            rgba($color-primary-dark, 0.8)),
+        url(../img/hero.jpg);
+    }
+
+    //Posso agganciare questa proprietà alla precedente con un OR (virgola)
+    /*@media (min-width: 2000px) {
+        background-image: linear-gradient(
+            to right bottom,
+            rgba($color-secondary-light, 0.8),
+            rgba($color-secondary-dark, 0.8)),
+        url(../img/hero.jpg); 
+    }*/
+    
+    @include respond(phone) { //modifico il vh da 75 a 85, per avere una linea di inclinazione più adatta al modello phone
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    }
+
+    &__logo-box {
+        position: absolute;
+        top: 4rem;
+        left: 4rem;
+    }
+
+    &__logo {
+        height: 3.5rem;
+    }
+
+    &__text-box {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        /*background-color: red;*/
+    }
+}

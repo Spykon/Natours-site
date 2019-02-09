@@ -1,0 +1,98 @@
+
+body {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    /*font-size: 16px;*/ /*Ho deciso di trasformare questa dimensione in %, quindi sposto tale dimensione in "html" e eseguo le opportune modifiche*/
+    line-height: 1.7;
+    color: #777;
+    
+}
+
+
+.heading-primary {
+    color: $color-white;
+    text-transform: uppercase;
+    margin-bottom: 6rem;
+
+    backface-visibility: hidden; /*Questo metodo peremtte di nascondere un effetto di tremio che si ha a seguito dell'animazione*/
+    
+    &--main {
+        display: block;
+        font-size: 6rem;
+        font-weight: 400;
+        letter-spacing: 3.5rem;
+    
+        animation-name: moveInLeft; /*Devo indicare il nome che ho introdotto nel "keyframes"*/
+        animation-duration: 1s; /*Indica la durata dell'animazione*/
+        animation-timing-function: ease-out;
+    
+        /*animation-delay: 3s; - Indico il ritardo con cui deve partire una data animazione*/
+        /*animation-iteration-count: 3; - quante volte voglio ripetere l'animazione*/
+        /*animation-timing-function: ease-out; - l'animazione inizia velocemente e termina lentamente*/
+
+        @include respond(phone) {
+            letter-spacing: 1rem;
+            font-family: 5rem;
+
+        }
+    }
+    
+    &--sub {
+        display: block; /*INDAGARE = VEDI: http://lago72.altervista.org/css-elementi-block-ed-elementi-inline/*/
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1.75rem;
+    
+        animation: moveInRight 1s ease-out;
+
+        
+        @include respond(phone) {
+            letter-spacing: .5rem;
+            
+        }
+    }
+
+
+}
+
+.heading-secondary {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark); /*Introduco uno scostamento di colore all'interno del testo*/
+    display: inline-block; /*Così facendo tengo conto solo del titolo e non dell'intera riga*/
+    -webkit-background-clip: text; /*Questo permette di avere il background image solo sul testo*/
+    color: transparent; /*Questo permette di rendere trasparente il colore del titolo, e quindi rende visibile lo scostamento introdotto*/
+    letter-spacing: .2rem;
+    transition: all .2s; /*Introduco un effetto di transizione per la trasformazione applicata in hover - così l'effetto non è brusco*/
+
+    @include respond(tab-port) {
+        font-size: 3rem;
+    }
+    @include respond(phone) {
+        font-size: 2.5rem;
+    }
+
+
+    &:hover {
+        transform: skewY(2deg) skewX(15deg) scale(1.1); /*Introduco un effetto di mini rotazione delle lettere ed un effetto di ingrandimento*/
+        text-shadow: .5rem 1rem 2rem rgba($color-black, .2); /*Introduco un effetto di ombra*/
+
+    }
+
+}
+
+.heading-tertiary {
+    font-size: $default-font-size;
+    font-weight: 700;
+    text-transform: uppercase;
+
+}
+
+.paragraph {
+    font-size: $default-font-size;
+
+    &:not(:last-child) {
+        margin-bottom: 3rem;
+    }
+}

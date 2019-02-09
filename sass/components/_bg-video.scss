@@ -1,0 +1,17 @@
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1; //per far sì che il video venga visto in ultimo piano
+    opacity: .15; //per rendere un po' più opaco il video
+    overflow: hidden; //serve per sistemare i bordi - senza questa proprietà il video sborda ai bordi
+
+    &__content {
+        height: 100%;
+        width: 100%;
+        object-fit: cover; //funziona in modo analogo al background-size: cover. - funziona sia per i video che per le immagini- vi sono altri valori
+
+    }
+}

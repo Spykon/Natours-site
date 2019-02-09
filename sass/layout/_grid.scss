@@ -1,0 +1,77 @@
+.row {
+    max-width: $grid-width; /*Viene usato il max-width perchè così posso avere un layout adattivo al suo ridimensionamento - significa che se ho a disposizione 114rem a disposizione, allora occupali tutti, se ne ho di meno, allora occupa il 100% dello spazio a disposione - (inizialmente avevo 114rem, poi ho introdotto una nuova variabile*/
+    margin: 0 auto;
+   
+
+    &:not(:last-child) {
+        margin-bottom: $gutter-vertical;
+
+        @include respond(tab-port) {
+            margin-bottom: $gutter-vertical-small;
+        }
+    }
+
+    @include respond(tab-port) {
+        max-width: 50rem; //per ridurre l'ampiezza delle varie schede
+        padding: 0 3rem;
+    }
+
+    @include clearfix; /*INDAGARE - Creo il clearfix nel file mixin. Questa operazione deve essere fatta per poter contrastare l'effetto float che si riflette su tutti gli elementi. Così facendo si introduce lo spazio impostato tra le righe*/
+
+    [class^="col-"] {
+        float: left;
+
+        &:not(:last-child) {
+            margin-right: $gutter-horizontal;
+
+            @include respond(tab-port) {
+                margin-right: 0;
+                margin-bottom: $gutter-vertical-small; //ho introdotto uno spazio di separazione tra i vari blocchi a livello di riga
+            }
+        }
+
+        @include respond(tab-port) {
+            width: 100% !important; //ho imposto che ogni colonna deve avere l'ampiezza del 100% 
+        }
+    }
+
+    .col-1-of-2 {
+        width: calc((100% - #{$gutter-horizontal}) / 2);
+       
+    }
+
+    .col-1-of-3 {
+        width: calc((100% - 2 * #{$gutter-horizontal}) / 3);
+    }
+
+    .col-2-of-3 {
+        width: calc(2 * ((100% - 2 * #{$gutter-horizontal}) / 3) + #{$gutter-horizontal});
+    }
+
+    .col-1-of-4 {
+        width: calc((100% - 3 * #{$gutter-horizontal}) / 4);
+    }
+
+    .col-2-of-4 {
+        width: calc(2 * ((100% - 3 * #{$gutter-horizontal}) / 4) + #{$gutter-horizontal});
+    }
+
+    .col-3-of-4 {
+        width: calc(3 * ((100% - 3 * #{$gutter-horizontal}) / 4) + 2 * #{$gutter-horizontal});
+    }
+}
+
+/*SELETTORI PARTICOLARI*/
+// [class^=col-] = significa che voglio selezionare tutto ciò che inizia per col-
+// [class*=col-] = significa che voglio selezionare  tutti gli elementi col-
+// [class$=col-] = significa che voglio selezionare tutti gli elementi che terminano per col-
+
+/*PROCEDIMENTO:
+01) Ho scritto in html il grid system;
+02) Ho creato il grid.scss;
+03) Ho connesso il grid.scss nel file main.scss;
+04) Ho compilato il grid.scss sfruttando "calc" - raccomandato;
+05) Ho introdotto delle nuove variabili di distanza;
+06) Ho introdotto il clearfix per risolvere il problema di float e lo collego al mixin;
+07) Ho applicato una regola generale a tutte le colonne tramite uno dei nuovi selettori;
+08) Ho verificato il tutto ed ho commentato la parte il grid scritto in html*/

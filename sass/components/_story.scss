@@ -1,0 +1,93 @@
+.story {
+    width: 75%;
+    margin: 0 auto;
+    box-shadow: 0 3rem 6rem rgba($color-black, .1);
+    background-color: rgba($color-white, .3); //serve per rendere trasparente la sezione del testo dei testimonial
+    border-radius: 3px;
+    padding: 6rem;
+    padding-left: 9rem; //introdotto per compensare il padding sx mangiato dal "transform" sottostante
+    font-size: $default-font-size;
+    transform: skewX(-12deg); //questa proprietà "ruota" l'intero blocco - ma io voglio solo il rettangolo
+
+    /*& > * {
+        transform: skewX(-12deg); //questo sistema la rotazione al rovescio di tutti gli altri elementi - questo metodo non può funzionare in quanto non possono applicati più "transform"
+    }*/
+
+    @include respond(tab-port) {
+        width: 100%;
+        padding: 4rem;
+        padding-left: 7rem;
+    }
+
+    @include respond(phone) {
+        transform: skewX(0);
+    }
+
+    &__shape { //blocco dedicato alle immagini dei testimonial
+        width: 15rem;
+        height: 15rem;
+        //background-color: green; //introdotto per vedere la parte relativa l'immagine
+        float: left;
+        transform: translateX(-3rem) skewX(12deg); //serve per distanziare il testo dalle immagini - ho aggiunto lo skew qui perchè altrimenti non funziona se ho due trasform
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+
+        //introdotto per la responsività di SAFARI
+        @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%); //per creare un cerchio per le immagini dei testimonial
+            -webkit-shape-outside: circle(50% at 50% 50%);
+            shape-outside: circle(50% at 50% 50%); //permette di creare uno spazio a cerchio attorno al blocco dedicato alle immagini dei testimonial - il primo valore esprime il valore del raggio basato sul height, mentre gli altri due...
+            border-radius: none;
+        }
+
+        @include respond(phone) {
+            transform: translateX(-3rem) skewX(0);
+        }
+
+    }
+
+    &__img {
+        //width: 100%; //Non va bene in quanto non copro l'intero cerchio con l'immagine
+        height: 100%; //scegliendo l'h come riferimento, copro il 100% del cerchio - questa proprietà è legata ai valori imposti precedentemente
+        transform: translateX(-4rem) scale(1.4); //introdotto per spostare leggermemte a sx l'immagine del testimonial in quanto è troppo a dx
+        backface-visibility: hidden; //serve per regolare un effetto indesiderato che si crea a seguito dello spostamento dell'immagine
+        transition: all .5s;
+
+    }
+
+    &__text {
+        transform: skewX(12deg); //ho aggiunto lo skew qui perchè altrimenti non va
+        
+        @include respond(phone) {
+            transform: skewX(0);
+        }
+    }
+
+    &__caption { //stile nome del testimonial
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 20%);
+        color: $color-white;
+        text-transform: uppercase;
+        font-size: 1.7rem;
+        text-align: center;
+        opacity: 0; //stato precedente al'hover - scritta trwsparente
+        transition: all .5s;
+        backface-visibility: hidden; //serve per annullare un leggero scostamento che si ha a fine animazione
+
+    }
+
+    &:hover &__caption {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover &__img {
+        transform: translateX(-4rem) scale(1);
+        filter: blur(3px) brightness(80%); //effetto speciale che si crea al hover dell'immagine - esistono più valori diversi- provare con inspect
+
+    }
+}
